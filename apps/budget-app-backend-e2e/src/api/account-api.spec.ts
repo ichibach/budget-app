@@ -1,17 +1,19 @@
 import { request } from "./request";
 
-const TESTING_URL = '/api/account/';
-describe(`GET ${TESTING_URL}`, () => {
+const target_url = '/api/account/';
+
+
+describe(`POST ${target_url}`, () => {
   it('should account create', async () => {
-    const res = await request.post(TESTING_URL, {
+    const response = await request.post(target_url, {
       "name": "Account #1",
       "description": "this is account Account #1",
       "account_type": "default",
       "currency": "RUB",
     });
 
-    expect(res.status).toBe(201);
-    expect(res.data).toEqual(expect.objectContaining({ 
+    expect(response.status).toBe(201);
+    expect(response.data).toEqual(expect.objectContaining({ 
       "id": expect.any(Number),
       "createdAt": expect.any(String),
       "updatedAt": expect.any(String),

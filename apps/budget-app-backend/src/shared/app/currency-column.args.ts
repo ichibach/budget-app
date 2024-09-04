@@ -1,0 +1,1 @@
+export const CurrencyColumnArgs = ['char', {length: 3, nullable: false}] as const;

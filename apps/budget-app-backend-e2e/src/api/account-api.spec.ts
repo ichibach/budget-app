@@ -1,3 +1,4 @@
+import { CreateAccountFixture, GetAccountFixture } from "src/fixtures/account.fixture";
 import { request } from "./request";
 
 const target_url = '/api/account/';
@@ -5,25 +6,27 @@ const target_url = '/api/account/';
 
 describe(`POST ${target_url}`, () => {
   it('should account create', async () => {
-    const response = await request.post(target_url, {
-      "name": "Account #1",
-      "description": "this is account Account #1",
-      "account_type": "default",
-      "currency": "RUB",
-    });
+    const response = await request.post(target_url, { ...CreateAccountFixture });
 
     expect(response.status).toBe(201);
     expect(response.data).toEqual(expect.objectContaining({ 
-      "id": expect.any(Number),
-      "createdAt": expect.any(String),
-      "updatedAt": expect.any(String),
-      "deletedAt": null,
-      "name": "Account #1",
-      "description": "this is account Account #1",
-      "account_type": "default",
-      "currency": "RUB",
-      "current_balance": 0,
-      "is_into_general_balance": true
+      ...GetAccountFixture
+    }));
+  });
+});
+
+describe(`GET ${target_url}`, () => {
+  it('should account get', async () => {
+    const post_response = await request.post(target_url, { ...CreateAccountFixture });
+
+    expect(post_response.status).toBe(201);
+    expect(post_response.data.id).toEqual(expect.any(Number));
+
+    const response = await request.get(`${target_url}${post_response.data.id}`)
+
+    expect(response.status).toBe(200);
+    expect(response.data).toEqual(expect.objectContaining({ 
+      ...GetAccountFixture
     }));
   });
 });

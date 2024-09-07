@@ -65,15 +65,15 @@ export class BaseRepository<
     return { [field]: ILike(`%${searchText}%`) };
   }
 
-  public async deleteById(id: string) {
+  public async deleteById(id: number) {
     return this.repositories.get(ConnectionName.rw).softDelete(id);
   }
 
-  public async deleteHardById(id: string) {
+  public async deleteHardById(id: number) {
     return this.repositories.get(ConnectionName.rw).delete(id);
   }
 
-  public async deleteHardByIds(ids: string[]) {
+  public async deleteHardByIds(ids: number[]) {
     return this.repositories.get(ConnectionName.rw).delete(ids);
   }
 
@@ -81,7 +81,7 @@ export class BaseRepository<
     return this.repositories.get(ConnectionName.rw).update(where, d);
   }
 
-  public async updateById(id: string, d: Partial<T>) {
+  public async updateById(id: number, d: Partial<T>) {
     return this.repositories.get(ConnectionName.rw).update(id, d);
   }
 

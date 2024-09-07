@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { Icon } from "../../static-content/entities/icon.entity";
 import { AccountType } from "./account-type.enum";
 import { User } from "../../user/entities/user.entity";
@@ -32,4 +32,7 @@ export class Account extends DefaultDatabaseEntity<Account> {
 
   @ManyToOne(type => User, user => user.accounts)
   user: User;
+
+  // @PrimaryColumn()
+  userId: number;
 }

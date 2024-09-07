@@ -10,10 +10,12 @@ export class CreateAccountDto
     | 'name' 
     | 'description'
     | 'account_type'
+    | 'currency'
   > 
 {
   name: string;
   description: string;
   account_type: AccountType;
+  currency: string;
   user_id: number;
 }

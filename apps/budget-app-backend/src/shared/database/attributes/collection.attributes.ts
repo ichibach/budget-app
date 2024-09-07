@@ -46,7 +46,7 @@ export class NotOptionalCollectionPagination {
   public readonly take = DEFAULT_PAGINATION.take;
 }
 
-export abstract class PageCollection<T> {
+export abstract class PaginationMeta<T> {
   @ApiProperty()
   public readonly data: T[];
 

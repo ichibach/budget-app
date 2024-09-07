@@ -17,15 +17,15 @@ export class AccountController {
     return this.accountService.findOne(+id);
   }
 
-  @Get()
-  findAll() {
-    return this.accountService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.accountService.findAll();
+  // }
 
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
-    return this.accountService.update(+id, updateAccountDto);
+    return this.accountService.update(updateAccountDto);
   }
 
   @Delete(':id')

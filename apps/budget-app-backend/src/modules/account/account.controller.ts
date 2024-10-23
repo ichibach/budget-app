@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
+import { PaginationParam } from 'src/shared/app/pagination-param.decorator';
+import { FilterParam } from 'src/shared/app/filter-param.decorator';
 
 @Controller('account')
 export class AccountController {
@@ -17,11 +27,14 @@ export class AccountController {
     return this.accountService.findOne(+id);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.accountService.findAll();
-  // }
-
+  @Get()
+  findAll(
+    @PaginationParam() pagination, 
+    @FilterParam() filter, 
+    user = 2
+  ) {
+    return this.accountService.findAll(user, pagination, filter);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {

@@ -7,18 +7,19 @@ import { useColorScheme } from '@/shared/hooks/useColorScheme';
 import { TotalBalanceWidget } from '@/widgets/TotalBalance/TotalBalanceWidget';
 import { SettingWidget } from '@/widgets/Settings/SettingsWidget';
 import { AddWalletWidget } from '@/widgets/AddWallet/AddWalletWidget';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View} from 'react-native';
+import { HeaderLayout } from '@/layout/HeaderLayout';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
   <>
-    <SafeAreaView>
+    <HeaderLayout>
       <SettingWidget/>
       <TotalBalanceWidget/>
       <AddWalletWidget/>
-    </SafeAreaView>
+    </HeaderLayout>
     <Tabs
       initialRouteName='wallets'
       screenOptions={{
@@ -52,4 +53,13 @@ export default function TabLayout() {
 } 
 
 
-const style = 
+const style = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    // backgroundColor: '#444'
+  }
+})

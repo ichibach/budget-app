@@ -22,6 +22,13 @@ export class AccountController {
     return this.accountService.create(createAccountDto);
   }
 
+  @Get('total-balance')
+  getTotalBalance(
+    userId = 2
+  ) {
+    return this.accountService.getTotalBalance(userId)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.accountService.findOne(+id);
@@ -31,10 +38,12 @@ export class AccountController {
   findAll(
     @PaginationParam() pagination, 
     @FilterParam() filter, 
-    user = 2
+    userId = 2
   ) {
-    return this.accountService.findAll(user, pagination, filter);
+    return this.accountService.findAll(userId, pagination, filter);
   }
+
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {

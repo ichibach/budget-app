@@ -10,9 +10,12 @@ import { CollectionPagination } from 'src/shared/database/attributes/collection.
 import { AccountFilterDto } from './dto/account-filter.dto';
 import { makePaginationMeta } from 'src/shared/database/utils/makePaginationMeta';
 import { AppException } from 'src/shared/exception/app.exception';
+import { Repository } from 'typeorm';
+
 
 @Injectable()
 export class AccountService {
+
   constructor(private readonly accountRepository: AccountRepository) {}
 
   @Transactional({ connectionName: ConnectionName.rw })
@@ -43,12 +46,24 @@ export class AccountService {
       },
       {
         order: {
-          updatedAt: 'DESC',
+          updatedAt: 'ASC',
         },
       },
     );
 
     return makePaginationMeta([items, count], pagination);
+  }
+
+  async getTotalBalance(userId: number, connection = ConnectionName.ro) {
+    console.log('111111111111111111111111111111111\n',{userId})
+
+    const repository = this.accountRepository.repositories.get(connection);
+
+
+
+    const result = await repository.sum('current_balance', { userId: 2, is_into_general_balance: true});
+  
+    return (result || 0).toFixed(2);
   }
 
   @Transactional({ connectionName: ConnectionName.rw })

@@ -6,18 +6,30 @@ import { ThemedText } from '@/shared/components/ThemedText';
 import { ThemedView } from '@/shared/components/ThemedView';
 import { WalletItemEntity } from '@/entities/WalletListItem';
 import ScrollView from '@/shared/components/ScrollView';
+import { useEffect, useState } from 'react';
+import { request } from '@/shared/api/request';
 
 export default function Wallets() {
+
+  const [wallets, setWallets] = useState<any[]>([])
+
+  useEffect(() => {
+    request({ url: '/api/account' }).then(
+      res => setWallets(res.data)
+    )
+  }, [])
+
+
+  useEffect(() => console.log(wallets.map(w => w.current_balance)), [wallets])
+
+
   return (
     <ThemedView style={styles.container}>
       <ScrollView>
-        <WalletItemEntity/>
-        <WalletItemEntity/>
-        <WalletItemEntity/>
+        { wallets.map((wallet) => <WalletItemEntity {...wallet}/>)
 
+        }
       </ScrollView>
-
-
     </ThemedView>
   );
 }

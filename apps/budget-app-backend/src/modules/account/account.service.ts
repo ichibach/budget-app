@@ -64,12 +64,9 @@ export class AccountService {
     return (result || 0).toFixed(2);
   }
 
-  // @Transactional({ connectionName: ConnectionName.rw })
+  @Transactional({ connectionName: ConnectionName.rw })
   async update(id: number, updateAccountDto: UpdateAccountDto) {
-    const result = await this.accountRepository.updateById(
-      id,
-      updateAccountDto,
-    );
+    const result = await this.accountRepository.updateById(id, updateAccountDto);
 
     if (result.affected !== 1) {
       throw new AppException(NotFoundException, 'errors.account.notFound', { id });

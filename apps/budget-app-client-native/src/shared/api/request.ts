@@ -1,10 +1,10 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { client } from "./client";
 
-export const request = async (options: AxiosRequestConfig) => {
+export const request = async <T = any>(options: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
   const onSuccess = (response: AxiosResponse) => {
-    const { data } = response;
-    return data;
+    // additional logic here
+    return response;
   };
 
   const onError = function (error: AxiosError) {
@@ -17,3 +17,5 @@ export const request = async (options: AxiosRequestConfig) => {
 
   return client(options).then(onSuccess).catch(onError);
 };
+
+export type RequestFn = typeof request;

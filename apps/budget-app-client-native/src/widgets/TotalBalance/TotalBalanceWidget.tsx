@@ -3,18 +3,14 @@ import { ThemedView } from "@/shared/components/ThemedView";
 import { style } from "./styles";
 import { useEffect, useState } from "react";
 import { request } from "@/shared/api/request";
+import { useTotalBalanceQuery } from "@/shared/api/hooks/query/wallet.query";
 
 
 
 export function TotalBalanceWidget() {
-  const [totalBalance, setTotalBalance] = useState('0');
-
-  useEffect(() => {
-    request({ url: '/api/account/total-balance' }).then(
-      res => setTotalBalance(res)
-    )
-  }, [])
-
+  const {data} = useTotalBalanceQuery();
+  
+  const totalBalance = data?.data;
 
   return (  
     <ThemedView style={style.container}>

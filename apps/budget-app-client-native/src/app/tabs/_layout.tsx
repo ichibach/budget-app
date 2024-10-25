@@ -25,7 +25,7 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-      }}>
+    }}>
         <Tabs.Screen
         name="wallets"
         options={{
@@ -33,17 +33,17 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'wallet' : 'wallet-outline'} color={color} />
           ),
-        }}
-      />
-        <Tabs.Screen
-        name="categories"
-        options={{
-          title: 'Categories',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'apps' : 'apps-outline'} color={color} />
-            ),
           }}
         />
+        <Tabs.Screen
+          name="categories"
+          options={{
+            title: 'Categories',
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'apps' : 'apps-outline'} color={color} />
+              ),
+            }}
+          />
 
         
     </Tabs>

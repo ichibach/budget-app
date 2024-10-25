@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import { StyleSheet, Image, Platform, RefreshControl } from 'react-native';
 
 
 import { ThemedText } from '@/shared/components/ThemedText';
@@ -8,26 +8,21 @@ import { WalletItemEntity } from '@/entities/WalletListItem';
 import ScrollView from '@/shared/components/ScrollView';
 import { useEffect, useState } from 'react';
 import { request } from '@/shared/api/request';
+import { useWalletListQuery } from '@/shared/api/hooks/query/wallet.query';
 
 export default function Wallets() {
 
-  const [wallets, setWallets] = useState<any[]>([])
+  const {isLoading, data, refetch} = useWalletListQuery()
 
-  useEffect(() => {
-    request({ url: '/api/account' }).then(
-      res => setWallets(res.data)
-    )
-  }, [])
-
-
-  useEffect(() => console.log(wallets.map(w => w.current_balance)), [wallets])
-
+  const wallets = data?.data.data || [];
 
   return (
     <ThemedView style={styles.container}>
-      <ScrollView>
-        { wallets.map((wallet) => <WalletItemEntity {...wallet}/>)
-
+      <ScrollView
+        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
+      >
+        { 
+          wallets.map((wallet) => <WalletItemEntity {...wallet} key={wallet.id}/>)
         }
       </ScrollView>
     </ThemedView>

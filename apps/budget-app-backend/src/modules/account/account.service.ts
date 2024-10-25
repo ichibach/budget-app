@@ -11,16 +11,15 @@ import { AccountFilterDto } from './dto/account-filter.dto';
 import { makePaginationMeta } from 'src/shared/database/utils/makePaginationMeta';
 import { AppException } from 'src/shared/exception/app.exception';
 import { Repository } from 'typeorm';
-
+import { makeRemoveResponse } from 'src/shared/app/remove-response';
 
 @Injectable()
 export class AccountService {
-
   constructor(private readonly accountRepository: AccountRepository) {}
 
   @Transactional({ connectionName: ConnectionName.rw })
-  async create(createAccountDto: CreateAccountDto) {
-    const account = new Account(createAccountDto);
+  async create(userId: number, createAccountDto: CreateAccountDto) {
+    const account = new Account({ ...createAccountDto, userId });
 
     await this.accountRepository.save(account);
 
@@ -55,46 +54,37 @@ export class AccountService {
   }
 
   async getTotalBalance(userId: number, connection = ConnectionName.ro) {
-    console.log('111111111111111111111111111111111\n',{userId})
-
     const repository = this.accountRepository.repositories.get(connection);
 
+    const result = await repository.sum('current_balance', {
+      userId,
+      is_into_general_balance: true,
+    });
 
-
-    const result = await repository.sum('current_balance', { userId: 2, is_into_general_balance: true});
-  
     return (result || 0).toFixed(2);
   }
 
-  @Transactional({ connectionName: ConnectionName.rw })
-  async update(updateAccountDto: UpdateAccountDto) {
+  // @Transactional({ connectionName: ConnectionName.rw })
+  async update(id: number, updateAccountDto: UpdateAccountDto) {
     const result = await this.accountRepository.updateById(
-      updateAccountDto.id,
+      id,
       updateAccountDto,
     );
 
     if (result.affected !== 1) {
-      throw new AppException(
-        NotFoundException, 
-        'errors.account.notFound', 
-        { id: updateAccountDto.id }
-      );
+      throw new AppException(NotFoundException, 'errors.account.notFound', { id });
     }
 
-    return this.findOne(updateAccountDto.id, ConnectionName.rw);
+    return this.findOne(id, ConnectionName.rw);
   }
 
   async remove(id: number) {
     const result = await this.accountRepository.deleteHardById(id);
 
     if (result.affected !== 1) {
-      throw new AppException(
-        NotFoundException, 
-        'errors.account.notFound', 
-        { id }
-      );
+      throw new AppException(NotFoundException, 'errors.account.notFound', { id });
     }
 
-    return { deleted: Boolean(result.affected) };
+    return makeRemoveResponse(result.affected);
   }
 }

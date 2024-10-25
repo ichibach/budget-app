@@ -17,5 +17,6 @@ export const GetAccountFixture = {
   "account_type": "default",
   "currency": "RUB",
   "current_balance": 0,
-  "is_into_general_balance": true
+  "is_into_general_balance": true,
+  "userId": 2,
 }

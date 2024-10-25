@@ -12,20 +12,22 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { PaginationParam } from 'src/shared/app/pagination-param.decorator';
 import { FilterParam } from 'src/shared/app/filter-param.decorator';
+import { UserId } from 'src/shared/app/user-id.decorator';
 
 @Controller('account')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Post()
-  create(@Body() createAccountDto: CreateAccountDto) {
-    return this.accountService.create(createAccountDto);
+  create(
+    @Body() createAccountDto: CreateAccountDto,
+    @UserId() userId: number,
+  ) {
+    return this.accountService.create(userId, createAccountDto);
   }
 
   @Get('total-balance')
-  getTotalBalance(
-    userId = 2
-  ) {
+  getTotalBalance( @UserId() userId: number ) {
     return this.accountService.getTotalBalance(userId)
   }
 
@@ -38,7 +40,7 @@ export class AccountController {
   findAll(
     @PaginationParam() pagination, 
     @FilterParam() filter, 
-    userId = 2
+    @UserId() userId: number
   ) {
     return this.accountService.findAll(userId, pagination, filter);
   }
@@ -46,12 +48,19 @@ export class AccountController {
 
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
-    return this.accountService.update(updateAccountDto);
+  update(
+    @Param('id') id: string, 
+    @Body() updateAccountDto: UpdateAccountDto,
+    @UserId() userId: number
+  ) {
+    return this.accountService.update(+id, updateAccountDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+    @Param('id') id: string,
+    @UserId() userId: number
+  ) {
     return this.accountService.remove(+id);
   }
 }

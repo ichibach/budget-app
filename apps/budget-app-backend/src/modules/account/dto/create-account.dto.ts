@@ -17,5 +17,4 @@ export class CreateAccountDto
   description: string;
   account_type: AccountType;
   currency: string;
-  user_id: number;
 }

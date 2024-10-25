@@ -18,7 +18,7 @@ export function TotalBalanceWidget() {
 
   return (  
     <ThemedView style={style.container}>
-      <ThemedText> Total Balance</ThemedText>
+      <ThemedText>Total Balance</ThemedText>
       <ThemedText type="title" >
         {totalBalance} $
       </ThemedText>

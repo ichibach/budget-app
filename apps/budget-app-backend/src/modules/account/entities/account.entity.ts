@@ -33,6 +33,6 @@ export class Account extends DefaultDatabaseEntity<Account> {
   @ManyToOne(type => User, user => user.accounts)
   user: User;
 
-  @PrimaryColumn()
+  @Column()
   userId: number;
 }

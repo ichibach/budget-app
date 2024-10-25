@@ -4,16 +4,15 @@ import { request } from "../request";
 const target_url = '/api/account/';
 const get_total_balance_target_url = target_url + 'total-balance/'; 
 
-describe(`POST ${target_url}`, () => {
+describe(`testing Account API ${target_url}`, () => {
   it('should account create', async () => {
     const response = await request.post(target_url, { ...CreateAccountFixture });
 
     expect(response.status).toBe(201);
     expect(response.data).toEqual(expect.objectContaining(GetAccountFixture));
   });
-});
 
-describe(`GET ${target_url}`, () => {
+
   it('should account get', async () => {
     const post_response = await request.post(target_url, { ...CreateAccountFixture });
 
@@ -25,9 +24,8 @@ describe(`GET ${target_url}`, () => {
     expect(response.status).toBe(200);
     expect(response.data).toEqual(expect.objectContaining(GetAccountFixture));
   });
-});
 
-describe(`GET ${target_url}`, () => {
+
   it('should get list of accounts', async () => {
     const response = await request.get(target_url)
 
@@ -36,9 +34,8 @@ describe(`GET ${target_url}`, () => {
     expect(Array.isArray(response.data.data)).toBe(true);
     expect(response.data).toHaveProperty('meta');
   });
-});
 
-describe(`GET ${get_total_balance_target_url}`, () => {
+
   it('should get total balance', async () => {
     const response = await request.get(get_total_balance_target_url)
 
@@ -46,9 +43,8 @@ describe(`GET ${get_total_balance_target_url}`, () => {
     expect(response.data).toEqual(expect.any(Number));
     expect(response.data).toBeGreaterThan(0);
   });
-});
 
-describe(`PATCH ${target_url}`, () => {
+
   it('should account update', async () => {
     const post_response = await request.post(target_url, { ...CreateAccountFixture });
 
@@ -60,9 +56,8 @@ describe(`PATCH ${target_url}`, () => {
     expect(response.status).toBe(200);
     expect(response.data).toHaveProperty('current_balance', 333.33);
   });
-});
 
-describe(`DELETE ${target_url}`, () => {
+
   it('should account delete', async () => {
     const post_response = await request.post(target_url, { ...CreateAccountFixture });
 
@@ -74,4 +69,6 @@ describe(`DELETE ${target_url}`, () => {
     expect(response.status).toBe(200);
     expect(response.data).toEqual({deleted: 1});
   });
+
+
 });

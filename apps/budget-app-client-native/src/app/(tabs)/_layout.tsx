@@ -28,6 +28,7 @@ export default function TabLayout() {
     }}>
         <Tabs.Screen
         name="wallets"
+        
         options={{
           title: 'Wallets',
           tabBarIcon: ({ color, focused }) => (
@@ -52,14 +53,3 @@ export default function TabLayout() {
   );
 } 
 
-
-const style = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
-    // backgroundColor: '#444'
-  }
-})

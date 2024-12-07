@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { style } from './style';
 import { ThemedText } from '@/shared/components/ThemedText';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,13 +8,14 @@ interface WalletItemEntityProps {
   name: string;
   current_balance: number;
   currency: string;
+  onClick?: () => void;
 }
 
 export function WalletItemEntity(props: WalletItemEntityProps) {
-  const {name, current_balance, currency} = props;
+  const {name, current_balance, currency, onClick} = props;
 
   return (
-    <View style={style.container}>
+    <Pressable style={style.container} onPress={onClick}>
       <View style={style.iconContainer}>
         <Ionicons name={'card'} size={25} color={'#14966D'} />
       </View>
@@ -22,6 +23,6 @@ export function WalletItemEntity(props: WalletItemEntityProps) {
         <ThemedText style={style.title}>{name}</ThemedText>
         <ThemedText style={style.amount}>{current_balance} {currency}</ThemedText>
       </View>
-    </View>
+    </Pressable>
   );
 }

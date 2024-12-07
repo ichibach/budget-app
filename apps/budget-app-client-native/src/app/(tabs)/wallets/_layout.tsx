@@ -9,23 +9,40 @@ import ScrollView from '@/shared/components/ScrollView';
 import { useEffect, useState } from 'react';
 import { request } from '@/shared/api/request';
 import { useWalletListQuery } from '@/shared/api/hooks/query/wallet.query';
+import { Link, router, Slot, Stack, useNavigation, useRouter } from 'expo-router';
 
-export default function Wallets() {
+export default function WalletsLayout() {
 
   const {isLoading, data, refetch} = useWalletListQuery()
+  const router = useRouter()
+  const navigation = useNavigation()
 
   const wallets = data?.data.data || [];
 
   return (
-    <ThemedView style={styles.container}>
+    <>
+      <ThemedView style={styles.container}>
       <ScrollView
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
       >
         { 
-          wallets.map((wallet) => <WalletItemEntity {...wallet} key={wallet.id}/>)
+          wallets.map((wallet) => 
+            <WalletItemEntity 
+              {...wallet} 
+              key={wallet.id}
+              onClick={() => router.push({pathname: '/wallets/[wallet_id]', params: { wallet_id: wallet.id }})}
+            />
+          )
         }
       </ScrollView>
+      
     </ThemedView>
+    <Slot/>
+    
+    </>
+
+      
+
   );
 }
 

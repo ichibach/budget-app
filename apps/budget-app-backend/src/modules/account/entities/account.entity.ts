@@ -5,6 +5,8 @@ import { User } from "../../user/entities/user.entity";
 import { DefaultDatabaseEntity } from "src/shared/database/default.entity";
 import { CurrencyColumnArgs } from "src/shared/app/currency-column.args";
 import { BalanceColumnArgs } from "src/shared/app/balance-column.args";
+import { Currency } from "src/modules/currency/entities/currency.entity";
+
 
 @Entity('account')
 export class Account extends DefaultDatabaseEntity<Account> {
@@ -21,7 +23,7 @@ export class Account extends DefaultDatabaseEntity<Account> {
   @Column('enum', {enum: AccountType, enumName: 'AccountType' })
   account_type: AccountType;
 
-  @Column(...CurrencyColumnArgs)
+  @ManyToOne(() => Currency, (currency) => currency.code)
   currency: string;
 
   @Column(...BalanceColumnArgs)
@@ -35,4 +37,8 @@ export class Account extends DefaultDatabaseEntity<Account> {
 
   @Column()
   userId: number;
+
 }
+
+
+

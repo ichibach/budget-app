@@ -1,0 +1,1 @@
+export { WalletModalWidget } from './WalletModalWidget';
